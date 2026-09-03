@@ -1,0 +1,82 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #0a192f;
+}
+::-webkit-scrollbar-thumb {
+    background: #0066ff;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00f0ff;
+}
+
+/* Glassmorphism Effect */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass {
+    background: rgba(17, 34, 64, 0.7);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+/* 3D Card Hover Effect */
+.card-3d {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.card-3d:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.3);
+}
+
+/* Text Gradient */
+.text-gradient {
+    background: linear-gradient(to right, #0066ff, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Particles Container */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* Sidebar Link Hover Animation */
+.sidebar-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #00f0ff;
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar-link:hover::before {
+    width: 100%;
+}
+
+/* Smooth Scrolling for the whole page */
+html {
+    scroll-behavior: smooth;
+}

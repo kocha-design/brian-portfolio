@@ -1,0 +1,373 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.name|default:"Brian Gasto" }} | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066ff',
+                        secondary: '#00f0ff',
+                        darkbg: '#0a192f',
+                        darkcard: '#112240',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 transition-colors duration-300">
+
+    <button id="menu-btn" class="fixed top-4 left-4 z-50 p-3 bg-primary text-white rounded-full shadow-lg md:hidden">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 glass rounded-full shadow-lg hover:scale-110 transition-transform">
+        <i class="fas fa-moon dark:hidden"></i>
+        <i class="fas fa-sun hidden dark:block text-secondary"></i>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-darkcard shadow-2xl transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40 flex flex-col justify-between p-6 border-r border-gray-200 dark:border-gray-800">
+        <div>
+            <div class="mb-10 text-center">
+                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-3xl font-bold text-white mb-3">
+                    {{ profile.name|default:"BG"|slice:":2" }}
+                </div>
+                <h2 class="text-xl font-bold">{{ profile.name|default:"Brian Gasto" }}</h2>
+                <p class="text-sm text-primary">{{ profile.title|default:"Founder & TD" }}</p>
+            </div>
+            <nav class="space-y-4">
+                <a href="#home" class="sidebar-link block py-2 px-4 hover:text-primary transition">Home</a>
+                <a href="#about" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.about.title|default:"About Me" }}</a>
+                <a href="#skills" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.skills.title|default:"Skills" }}</a>
+                <a href="#experience" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.experience.title|default:"Experience" }}</a>
+                <a href="#companies" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.companies.title|default:"Companies" }}</a>
+                <a href="#projects" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.projects.title|default:"Projects" }}</a>
+                <a href="#blog" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.blog.title|default:"Blog" }}</a>
+                <a href="#contact" class="sidebar-link block py-2 px-4 hover:text-primary transition">{{ section_titles.contact.title|default:"Contact" }}</a>
+            </nav>
+        </div>
+        <div class="flex space-x-4 justify-center text-xl">
+            {% for link in social_links %}
+                <a href="{{ link.url }}" target="_blank" class="hover:text-primary transition">
+                    <i class="{{ link.icon_class }}"></i>
+                </a>
+            {% empty %}
+                <a href="#" class="hover:text-primary transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-primary transition"><i class="fab fa-github"></i></a>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <main class="md:ml-64 min-h-screen">
+        
+        <!-- Hero Section -->
+        <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div id="particles-js"></div>
+            <div class="relative z-10 text-center px-4" data-aos="fade-up" data-aos-duration="1000">
+                <p class="text-primary font-mono mb-4 text-lg">{{ profile.hero_greeting|default:"Hello, I am" }}</p>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-gradient">{{ profile.name|default:"Brian Gasto Mrema" }}</h1>
+                <h2 class="text-2xl md:text-3xl text-gray-600 dark:text-gray-400 mb-8">
+                    {{ profile.title|default:"Software Developer | Founder | Technical Director" }}
+                </h2>
+                <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-10 text-lg">
+                    {{ profile.hero_bio|default:"Passionate software developer specializing in web development, business systems, and digital solutions." }}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#contact" class="px-8 py-4 bg-primary text-white rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">
+                        Contact Me
+                    </a>
+                    {% if profile.cv_file %}
+                    <a href="{{ profile.cv_file.url }}" download class="px-8 py-4 glass text-primary border border-primary rounded-full font-bold hover:bg-primary hover:text-white transition flex items-center justify-center gap-2">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-6 md:px-20">
+            <div class="max-w-4xl mx-auto" data-aos="fade-right">
+                <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.about.number|default:"01" }}.</span> {{ section_titles.about.title|default:"About Me" }}
+                </h2>
+                <div class="glass p-8 rounded-2xl card-3d">
+                    <p class="text-lg leading-relaxed mb-6">
+                        {{ about.paragraph_1|default:"I am a dedicated Software Developer with almost 2 years of experience, holding a Diploma in Computer Science." }}
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        {{ about.paragraph_2|default:"Beyond coding, I am the Founder and Technical Director of two emerging tech companies." }}
+                    </p>
+                    {% if about %}
+                    <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="p-4 bg-blue-50 dark:bg-darkbg rounded-lg">
+                            <h3 class="text-3xl font-bold text-primary">{{ about.stat_1_number }}</h3>
+                            <p class="text-sm">{{ about.stat_1_label }}</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 dark:bg-darkbg rounded-lg">
+                            <h3 class="text-3xl font-bold text-primary">{{ about.stat_2_number }}</h3>
+                            <p class="text-sm">{{ about.stat_2_label }}</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 dark:bg-darkbg rounded-lg">
+                            <h3 class="text-3xl font-bold text-primary">{{ about.stat_3_number }}</h3>
+                            <p class="text-sm">{{ about.stat_3_label }}</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 dark:bg-darkbg rounded-lg">
+                            <h3 class="text-3xl font-bold text-primary">{{ about.stat_4_number }}</h3>
+                            <p class="text-sm">{{ about.stat_4_label }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 px-6 md:px-20 bg-gray-100 dark:bg-[#0d1f3a]">
+            <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-12 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.skills.number|default:"02" }}.</span> {{ section_titles.skills.title|default:"Skills & Expertise" }}
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {% for skill in skills %}
+                    <div class="glass p-6 rounded-xl text-center card-3d hover:border-secondary transition">
+                        <i class="fas fa-code text-4xl text-primary mb-4"></i>
+                        <h3 class="font-bold text-lg">{{ skill.name }}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ skill.category }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-4 text-center text-gray-500 py-8">
+                        <p>No skills added yet. Add them via Admin Panel.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Timeline -->
+        <section id="experience" class="py-20 px-6 md:px-20">
+            <div class="max-w-4xl mx-auto" data-aos="fade-left">
+                <h2 class="text-4xl font-bold mb-12 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.experience.number|default:"03" }}.</span> {{ section_titles.experience.title|default:"Experience" }}
+                </h2>
+                <div class="relative border-l-2 border-primary ml-4 space-y-12">
+                    {% for exp in experiences %}
+                    <div class="relative pl-8">
+                        <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-secondary"></div>
+                        <h3 class="text-2xl font-bold">{{ exp.title }}</h3>
+                        <p class="text-primary font-mono">{{ exp.period }}</p>
+                        <p class="mt-2 text-gray-600 dark:text-gray-300">{{ exp.description }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="text-center text-gray-500">
+                        <p>No experiences added yet. Add them via Admin Panel.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Companies & Services -->
+        <section id="companies" class="py-20 px-6 md:px-20 bg-gray-100 dark:bg-[#0d1f3a]">
+            <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-12 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.companies.number|default:"04" }}.</span> {{ section_titles.companies.title|default:"My Companies" }}
+                </h2>
+                
+                <div class="space-y-12">
+                    {% for company in companies %}
+                    <div class="glass p-8 rounded-2xl">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <div>
+                                <h3 class="text-3xl font-bold text-gradient">{{ company.name }}</h3>
+                                <p class="text-primary font-mono mt-1">Founded: {{ company.founded_date|date:"F Y" }}</p>
+                            </div>
+                            <span class="mt-4 md:mt-0 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold">{{ company.role_title }}</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6">{{ company.description }}</p>
+                        
+                        <h4 class="text-xl font-bold mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">Core Services</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            {% for service in company.services.all %}
+                            <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition">
+                                <i class="{{ service.icon_class }} text-secondary mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold">{{ service.title }}</h5>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ service.description|truncatewords:15000 }}</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="text-gray-500 italic">No services added for this company.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center text-gray-500 py-8">
+                        <p>No companies added yet. Add them via Admin Panel.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-6 md:px-20">
+            <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-12 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.projects.number|default:"05" }}.</span> {{ section_titles.projects.title|default:"Featured Projects" }}
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    {% for project in projects %}
+                    <div class="glass rounded-2xl overflow-hidden card-3d group">
+                        <div class="h-48 bg-gradient-to-br from-primary to-darkcard flex items-center justify-center">
+                            <i class="fas fa-laptop-code text-6xl text-white/20 group-hover:text-white/40 transition"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">{{ project.title }}</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">{{ project.description }}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                {% for tech in project.tech_list %}
+                                <span class="text-xs font-mono text-secondary bg-primary/10 px-2 py-1 rounded">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                            {% if project.link %}
+                            <a href="{{ project.link }}" target="_blank" class="inline-flex items-center gap-2 text-primary hover:text-secondary transition">
+                                View Project <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-2 text-center text-gray-500 py-8">
+                        <p>No projects added yet. Add them via Admin Panel.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="py-20 px-6 md:px-20 bg-gray-100 dark:bg-[#0d1f3a]">
+            <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-12 flex items-center gap-3">
+                    <span class="text-primary">{{ section_titles.blog.number|default:"06" }}.</span> {{ section_titles.blog.title|default:"Latest Articles" }}
+                </h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    {% for post in blog_posts %}
+                    <article class="glass p-6 rounded-2xl card-3d">
+                        <p class="text-sm text-primary font-mono mb-2">{{ post.created_at|date:"M d, Y" }}</p>
+                        <h3 class="text-xl font-bold mb-3 hover:text-secondary transition cursor-pointer">{{ post.title }}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ post.content|truncatewords:20 }}</p>
+                        <a href="#" class="text-primary hover:text-secondary text-sm font-bold">Read More →</a>
+                    </article>
+                    {% empty %}
+                    <div class="col-span-3 text-center text-gray-500 py-8">
+                        <p>No blog posts added yet. Add them via Admin Panel.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-6 md:px-20">
+            <div class="max-w-4xl mx-auto text-center" data-aos="zoom-in">
+                <p class="text-primary font-mono mb-4">{{ section_titles.contact.number|default:"07" }}. What's Next?</p>
+                <h2 class="text-5xl font-bold mb-6">Get In Touch</h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-12 max-w-xl mx-auto">
+                    Whether you have a question about my services, want to discuss a project, or just want to say hi, my inbox is always open.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-12 text-left">
+                    <div class="glass p-6 rounded-xl text-center">
+                        <i class="fas fa-envelope text-3xl text-primary mb-3"></i>
+                        <p class="font-bold">Email</p>
+                        <a href="mailto:{{ profile.email }}" class="text-sm text-gray-500 hover:text-secondary break-all">{{ profile.email|default:"mremagastobrian@gmail.com" }}</a>
+                    </div>
+                    <div class="glass p-6 rounded-xl text-center">
+                        <i class="fas fa-phone text-3xl text-primary mb-3"></i>
+                        <p class="font-bold">Phone</p>
+                        <a href="tel:{{ profile.phone }}" class="text-sm text-gray-500 hover:text-secondary">{{ profile.phone|default:"0613 950 508" }}</a>
+                    </div>
+                    <div class="glass p-6 rounded-xl text-center">
+                        <i class="fas fa-map-marker-alt text-3xl text-primary mb-3"></i>
+                        <p class="font-bold">Location</p>
+                        <p class="text-sm text-gray-500">{{ profile.location|default:"Mbeya, Tanzania" }}</p>
+                    </div>
+                </div>
+
+                {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                    <div class="p-4 bg-green-100 text-green-800 rounded-lg">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form class="max-w-lg mx-auto glass p-8 rounded-2xl text-left" method="POST" action="{% url 'contact_submit' %}">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Name</label>
+                        <input type="text" name="name" class="w-full p-3 rounded-lg bg-white/5 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none transition" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Email</label>
+                        <input type="email" name="email" class="w-full p-3 rounded-lg bg-white/5 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none transition" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Subject (Optional)</label>
+                        <input type="text" name="subject" class="w-full p-3 rounded-lg bg-white/5 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none transition">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Message</label>
+                        <textarea name="message" rows="4" class="w-full p-3 rounded-lg bg-white/5 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none transition" required></textarea>
+                    </div>
+                        <button type="submit" class="w-full py-4 bg-primary text-white rounded-lg font-bold hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">
+        Send Message
+    </button>
+                </form>
+            </div>
+        </section>
+
+<!-- Footer -->
+<footer class="py-8 text-center text-gray-500 text-sm border-t border-gray-200 dark:border-gray-800">
+    <p>{{ settings.footer_credit|default:"Designed & Built by Brian Gasto Mrema" }}</p>
+    <p class="mt-2">{{ settings.footer_copyright|default:"© 2026 Random Tech Solution & Obrigado Solutions. All rights reserved." }}</p>
+    
+    {% if settings.footer_show_social %}
+    <div class="flex justify-center gap-4 mt-4 text-xl">
+        {% if settings.linkedin_url %}
+        <a href="{{ settings.linkedin_url }}" target="_blank" class="hover:text-primary transition">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        {% endif %}
+        {% if settings.github_url %}
+        <a href="{{ settings.github_url }}" target="_blank" class="hover:text-primary transition">
+            <i class="fab fa-github"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% if settings.footer_extra_text %}
+    <p class="mt-3 text-xs italic">{{ settings.footer_extra_text }}</p>
+    {% endif %}
+</footer>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{% static 'core/js/script.js' %}"></script>
+</body>
+</html>

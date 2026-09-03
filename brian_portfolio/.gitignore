@@ -1,0 +1,76 @@
+# --- Python ---
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Django ---
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# --- Virtual Environment ---
+venv/
+env/
+ENV/
+.venv
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Environment Variables (Muhimu Sana!) ---
+.env
+.env.local
+.env.*.local
+
+# --- Secret Keys & Config ---
+secret_key.txt
+config.json
+credentials.json
+
+# --- Coverage ---
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# --- Translations ---
+*.mo
+*.pot
+
+# --- Migrations (optional - unaweza kuweka au la) ---
+# migrations/*.py  !migrations/__init__.py
